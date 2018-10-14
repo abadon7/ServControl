@@ -78,9 +78,9 @@ class Details extends React.Component {
     render() {
         return (
             <div className="info-container">
-            <div>Información de {this.state.username}</div>
-            <div>{this.props.dateInfo.month}-{this.props.dateInfo.year}</div>
-            <div><p>Horas Totales: <span className="w3-tag w3-pink w3-xlarge">{this.state.totalHoras}</span></p></div>
+            <div><h4>Información de {this.state.username}</h4></div>
+            <div><button className="w3-btn w3-deep-purple">{this.props.dateInfo.month}-{this.props.dateInfo.year}</button></div>
+            <div><p><span className="w3-tag w3-pink w3-xlarge">Horas Totales: {this.state.totalHoras}</span></p></div>
             <div className="w3-responsive w3-card-4">
             {/* <ul className="w3-ul w3-card-4">
             {this.state.itemsControl.map((item) => {
