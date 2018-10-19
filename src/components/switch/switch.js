@@ -18,6 +18,18 @@ class Switch extends React.Component {
             itemIdSw: this.props.itemIdSw                                       
         });
     }
+    _handleChange = (e) => {
+       this.setState({ isChecked: !this.state.isChecked });
+       
+    }
+     _handleChange2() {
+         console.log(`This return visit ${this.state.itemIdSw} is a bible study ${this.state.isChecked}`);
+         this.setState({ isChecked: !this.state.isChecked });
+    }
+    returnCounter = () => {
+        console.log(this.state.itemIdSw)
+        return this.state.isChecked;
+    }
     render() {
         const { onPress} = this.props;
         return (
@@ -40,18 +52,7 @@ class Switch extends React.Component {
             </div>
         );
     }
-    _handleChange = (e) => {
-       this.setState({ isChecked: !this.state.isChecked });
-       
-    }
-     _handleChange2() {
-         console.log(`This return visit ${this.state.itemIdSw} is a bible study ${this.state.isChecked}`);
-         this.setState({ isChecked: !this.state.isChecked });
-    }
-    returnCounter = () => {
-        console.log(this.state.itemIdSw)
-        return this.state.isChecked;
-    }
+    
 }
 export default Switch;
 //React.render(<Switch isChecked={true} />, document.getElementById("page"));

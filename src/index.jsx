@@ -10,27 +10,27 @@ import './favicon.ico';
 import firebase, { auth, provider } from './firebaseInit.js';
 import currentDate, { date } from './timeInformation.js';
 import './modal.css';
-import { Route, NavLink, HashRouter, BrowserRouter } from "react-router-dom";
+import { Route, NavLink, HashRouter, BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
     constructor() {
         super();
         /* var today = new Date(),
-        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(); */
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(); */
         /* var today = new Date(),
-            date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
-        var weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const monthNamesEs = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", " Noviembre", "Diciembre"
-        ];
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-        var currentDay = weekday[today.getDay()];
-        var currentMonth = monthNames[today.getMonth()];
-        const currentYear = today.getFullYear();
-        const monthDays = new Date(today.getDay(), today.getMonth() + 1, 0).getDate();
-        const currentDate = { day: currentDay, month: currentMonth, year: currentYear, days: monthDays, dayNum: today.getDate() }; */
+        date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
+    var weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const monthNamesEs = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", " Noviembre", "Diciembre"
+    ];
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    var currentDay = weekday[today.getDay()];
+    var currentMonth = monthNames[today.getMonth()];
+    const currentYear = today.getFullYear();
+    const monthDays = new Date(today.getDay(), today.getMonth() + 1, 0).getDate();
+    const currentDate = { day: currentDay, month: currentMonth, year: currentYear, days: monthDays, dayNum: today.getDate() }; */
         this.state = {
             currentItem: '',
             username: '',
@@ -48,8 +48,8 @@ class App extends Component {
             addBox: 'hide',
             editItem: '',
             itemEditID: '',
-            dateFullInfo: currentDate,
-        }
+            dateFullInfo: currentDate
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.login = this.login.bind(this); // <-- add this line
@@ -62,35 +62,37 @@ class App extends Component {
     }
     componentDidMount() {
         console.log('showing items Did');
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(user => {
             console.log('showing items2');
             if (user) {
-                this.setState({ user });
-            }
-        });
-       /*  const itemsRef = firebase.database().ref('items');
-        itemsRef.on('value', (snapshot) => {
-            let items = snapshot.val();
-            console.log(items);
-            let newState = [];
-            for (let item in items) {
-                newState.push({
-                    id: item,
-                    title: items[item].title,
-                    cel: items[item].pCel,
-                    dir: items[item].pDir,
-                    barrio: items[item].pBarrio,
-                    des: items[item].pDesc,
-                    user: items[item].user,
-                    Pub: items[item].pPub,
-                    dateBack: items[item].dateBack || "",
-                    dateInit: items[item].dateInit
+                this.setState({
+                    user
                 });
             }
-            this.setState({
-                items: newState
-            });
-        }); */
+        });
+        /*  const itemsRef = firebase.database().ref('items');
+   itemsRef.on('value', (snapshot) => {
+       let items = snapshot.val();
+       console.log(items);
+       let newState = [];
+       for (let item in items) {
+           newState.push({
+               id: item,
+               title: items[item].title,
+               cel: items[item].pCel,
+               dir: items[item].pDir,
+               barrio: items[item].pBarrio,
+               des: items[item].pDesc,
+               user: items[item].user,
+               Pub: items[item].pPub,
+               dateBack: items[item].dateBack || "",
+               dateInit: items[item].dateInit
+           });
+       }
+       this.setState({
+           items: newState
+       });
+   }); */
     }
     handleChange(e) {
         this.setState({
@@ -98,22 +100,20 @@ class App extends Component {
         });
     }
     logout() {
-        auth.signOut()
-            .then(() => {
-                this.setState({
-                    user: null,
-                    items: []
-                });
+        auth.signOut().then(() => {
+            this.setState({
+                user: null,
+                items: []
             });
+        });
     }
     login() {
-        auth.signInWithPopup(provider)
-            .then((result) => {
-                const user = result.user;
-                this.setState({
-                    user
-                });
+        auth.signInWithPopup(provider).then(result => {
+            const user = result.user;
+            this.setState({
+                user
             });
+        });
     }
     showAddBox() {
         if (this.state.addBox === 'hide') {
@@ -139,33 +139,35 @@ class App extends Component {
             dateBack: this.state.dateBack,
             dateInit: this.state.dateInit,
             user: this.state.user.displayName || this.state.user.email
-        }
+        };
         if (this.state.editItem === 0) {
             const itemsRef2 = firebase.database().ref('items');
             console.log(item);
             itemsRef2.push(item);
         } else {
             console.log(item);
-            console.log("Your editing an item");
+            console.log('Your editing an item');
             var updates = {};
             updates[`/items/${this.state.itemEditID}`] = item;
-            firebase.database().ref().update(updates);
+            firebase
+                .database()
+                .ref()
+                .update(updates);
         }
         this.cleanStates();
-
     }
     /*componentWillMount() {
-        console.log('showing items1');
-        const nameRef = firebase.database().ref().child('object').child('name')
-        const Ref2 = firebase.database().ref().child('users')
-        window.TestRef = Ref2
-        console.log(Ref2)
-        nameRef.on('value', (snapshot) => {
-            this.setState({
-                name: snapshot.val()
-            })
-        })
-    }*/
+      console.log('showing items1');
+      const nameRef = firebase.database().ref().child('object').child('name')
+      const Ref2 = firebase.database().ref().child('users')
+      window.TestRef = Ref2
+      console.log(Ref2)
+      nameRef.on('value', (snapshot) => {
+          this.setState({
+              name: snapshot.val()
+          })
+      })
+  }*/
     updateItem(itemId, itemData) {
         console.log(itemData);
         this.setState({
@@ -178,12 +180,12 @@ class App extends Component {
             pBarrio: itemData.barrio,
             pDesc: itemData.des,
             pPub: itemData.Pub,
-            dateBack: itemData.dateBack || "",
+            dateBack: itemData.dateBack || '',
             editItem: 1,
             itemEditID: itemId
         });
         this.openFormBox();
-        console.log("Editing element");
+        console.log('Editing element');
         //const itemRef = firebase.database().ref(`/items/${itemId}`);
         //updates[`/items/${itemId}`] = movie;
         //console.log(itemRef);
@@ -193,16 +195,15 @@ class App extends Component {
         itemRef.remove();
     }
     openFormBox() {
-        console.log("clicking in openFormBox");
-        window.location = "#modal-one";
-        var mainBody = document.getElementById("mainBody");
-        mainBody.classList.add("noScroll");
+        console.log('clicking in openFormBox');
+        window.location = '#modal-one';
+        var mainBody = document.getElementById('mainBody');
+        mainBody.classList.add('noScroll');
     }
     closeFormBox() {
-        var mainBody = document.getElementById("mainBody");
-        mainBody.classList.remove("noScroll");
+        var mainBody = document.getElementById('mainBody');
+        mainBody.classList.remove('noScroll');
         this.cleanStates();
-
     }
     cleanStates() {
         this.setState({
@@ -219,53 +220,81 @@ class App extends Component {
             editItem: 0,
             itemEditID: ''
         });
-        console.log("Form is clean");
+        console.log('Form is clean');
     }
     returnToStudy(e) {
-        console.log(`This return visit ${e.target.value} is a bible study ${e.target.checked}`);
-        console.log("Converting return visit in a Bible study");
+        console.log(
+            `This return visit ${e.target.value} is a bible study ${
+                e.target.checked
+            }`
+        );
+        console.log('Converting return visit in a Bible study');
         /*const node = this.myRef;
-        console.log(node);
-        this.myRef.current;*/
+  console.log(node);
+  this.myRef.current;*/
     }
     forceUpdate(){
-        console.log("Calling ForceUpdate")
-        console.log(this.refs)
+        console.log('Calling ForceUpdate');
+        console.log(this.refs);
         //this.refs.RefHeader.showText();
         this.refs.details.refs.Details.getFirebaseInfo();
     }
     render() {
-        var modalHeight = screen.height - 300;
         return (
             //<MuiThemeProvider>
             <HashRouter>
-                <div className='app'>
-                    {this.state.user ?
-                        <Header ref="RefHeader" user={1} logOutFn={this.logout} callBack={this.forceUpdate}></Header>
-                        :
-                        <HashRouter><Header ref="RefHeader" logIntFn={this.login} callBack={this.forceUpdate}></Header></HashRouter>
-                    }
+                <div className="app">
+                    {this.state.user ? (
+                        <Header
+                            ref="RefHeader"
+                            user={1}
+                            logOutFn={this.logout}
+                            callBack={this.forceUpdate}
+                        />
+                    ) : (
+                        <HashRouter>
+                            <Header
+                                ref="RefHeader"
+                                logIntFn={this.login}
+                                callBack={this.forceUpdate}
+                            />
+                        </HashRouter>
+                    )}
                     {/* <button onClick={this.testText}>Test</button> */}
                     <div className="container">
-                        {this.state.user ?
+                        {this.state.user ? (
                             <React.Fragment>
                                 {/* <Route path="/agregar" component={Addinfo} /> */}
                                 {/*  <Route path="/detalles" component={Details} /> */}
                                 <Route
-                                    path='/agregar'
-                                    render={(props) => <Addinfo {...props} dateInfo={this.state.dateFullInfo} ref="Add" />}
+                                    path="/agregar"
+                                    render={props => (
+                                        <Addinfo
+                                            {...props}
+                                            dateInfo={this.state.dateFullInfo}
+                                            ref="Add"
+                                        />
+                                    )}
                                 />
                                 <Route
-                                    path='/detalles'
-                                    render={(props) => <Details {...props} dateInfo={this.state.dateFullInfo} ref="Details"/>}
+                                    path="/detalles"
+                                    render={props => (
+                                        <Details
+                                            {...props}
+                                            dateInfo={this.state.dateFullInfo}
+                                            ref="Details"
+                                        />
+                                    )}
                                     ref="details"
                                 />
                                 {/* <Addinfo />
-                                <Details /> */}
+                            <Details /> */}
                             </React.Fragment>
-                            :
-                            <div><h2>Inicia sesión para usar la aplicación</h2></div>
-                        }
+                        ) : (
+                            <div>
+                                <h2>Inicia sesión para usar la aplicación</h2>
+                            </div>
+                        )}
                     </div>
                 </div>
             </HashRouter>
