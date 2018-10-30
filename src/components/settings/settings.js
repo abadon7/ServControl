@@ -12,6 +12,14 @@ class Settings extends React.Component {
         //const UserContext = React.createContext(['stop', 'Carito', 'Henry']);
     }
     componentDidMount() {
+        const sttRef = firebase.database().ref(`control/settings/planHours`);
+        sttRef.on('value', snapshot => {
+            let items = snapshot.val();
+            console.log(items);
+            this.setState({
+                planHours: items
+            });
+        });
         const userList = ['stop', 'Carito', 'Henry'];
         this.setState({
             APP_USERS: userList
@@ -36,11 +44,21 @@ class Settings extends React.Component {
     }
     _handleChangeH(e){
         console.log('Setting planning hours');
+        const sttref = firebase.database().ref(`control/settings`);
         let hoursValues = this.state.planHours;
-        hoursValues[e.target.name] = e.target.value; 
+        hoursValues[e.target.name] = e.target.value,
         this.setState({
             [e.target.planHours]: hoursValues
         });
+        const item = {
+            planHours: hoursValues,
+        }
+        sttref.set(item, function (error) {
+            if (error)
+                alert("Tuvimos problemnas guardando la información")
+            else
+                console.log('La información se guardó correctamente')
+        })
     }
     render() {
         return (
