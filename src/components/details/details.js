@@ -1,33 +1,45 @@
 import React, { Component } from "react";
 //import './switch.css';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import '../../../node_modules/react-datepicker/dist/react-datepicker.css';
 import firebase, { auth, provider } from "../../firebaseInit.js";
 class Details extends React.Component {
     constructor(props) {
         super(props);
         //var DB_PATH = '';
         this.state = {
-            username: "",
+            username: localStorage.getItem("PioneerName") || "",
             itemsControl: [],
             totalHoras: 0,
             DB_PATH: "",
-            listDaysMonth: ''
+            listDaysMonth: '',
+            selMonth: '',
+            selYear: ''
         };
         this.getFirebaseInfo = this.getFirebaseInfo.bind(this);
         this.getDaysInMonth = this.getDaysInMonth.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
-        this.getFirebaseInfo();
-        this.setState({
-            listDaysMonth: this.getDaysInMonth(this.props.dateInfo.today.getMonth(), this.props.dateInfo.year),
-        });
-
-    }
-    getFirebaseInfo() {
         const today = this.props.dateInfo.today;
         //const addDay = today._d.getDate();
         const addMonth = today.getMonth() + 1;
         const addYear = today.getFullYear();
-        let DB_PATH = `control/${localStorage.getItem("PioneerName")}/${addYear}/${addMonth}`;
+        this.setState({
+            listDaysMonth: this.getDaysInMonth(this.props.dateInfo.today.getMonth(), this.props.dateInfo.year),
+            selMonth: addMonth,
+            selYear: addYear,
+        }, () => {
+            console.log('Setting states');
+            this.getFirebaseInfo();
+        });
+        
+    }
+    getFirebaseInfo() {
+        console.log('Getting info');
+        let DB_PATH = `control/${localStorage.getItem("PioneerName")}/${this.state.selYear}/${this.state.selMonth}`;
+        console.log(`This is the url ${DB_PATH}`);
         const itemsRef = firebase.database().ref(DB_PATH);
         itemsRef.on('value', snapshot => {
             let items = snapshot.val();
@@ -95,16 +107,36 @@ class Details extends React.Component {
         }
         return days;
     }
+    handleChange(e) {
+        if(e.target.name === 'showMonth'){
+            this.setState({
+                selMonth: parseInt(e.target.value) + 1
+            }, () => {
+                this.getFirebaseInfo();
+            });
+        }
+    }
     render() {
         return (
             <div className="info-container">
                 <div>
                     <h4>Información de {this.state.username}</h4>
                 </div>
-                <div>
-                    <button className="w3-btn w3-deep-purple">
-                        {this.props.dateInfo.month}-{this.props.dateInfo.year}
-                    </button>
+                <div className="">
+                    <label>To change month and year</label>
+                    <select className="w3-select w3-deep-purple" name="showMonth" onChange={this.handleChange}>
+                    {this.props.dateInfo.monthNames.map((item, index) => {
+                        return this.state.selMonth === index + 1 ?
+                            <option selected key={index} value={index}>{item}</option>
+                        :
+                            <option key={index} value={index}>{item}</option>
+                        }
+                            
+                    )}
+                    </select>
+                    <select className="w3-select" name="showYear" onChange={this.handleChange}>
+                        <option value="2018">2018</option>
+                    </select>
                 </div>
                 <div>
                     <p>

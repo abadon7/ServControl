@@ -69,7 +69,7 @@ class Header extends React.Component {
                 <div className="w3-bar w3-deep-purple">
                     <a href="#" className="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium">Control de Servicio</a>
                     <a href="#" className="w3-bar-item w3-button w3-hide-small">Control de Servicio</a>
-                    {this.props.user == 1 ?
+                    {this.props.user === 1 ?
                         <React.Fragment >
                             <NavLink to="/agregar" className="w3-bar-item w3-button w3-hide-small">Agregar</NavLink>
                             <NavLink to="/detalles"  className="w3-bar-item w3-button w3-hide-small">Detalles</NavLink>
