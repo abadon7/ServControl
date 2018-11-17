@@ -41,17 +41,59 @@ class Details extends React.Component {
         let DB_PATH = `control/${localStorage.getItem("PioneerName")}/${this.state.selYear}/${this.state.selMonth}`;
         console.log(`This is the url ${DB_PATH}`);
         const itemsRef = firebase.database().ref(DB_PATH);
-        itemsRef.on('value', snapshot => {
+        console.log(itemsRef);
+        itemsRef.orderByValue().on('value', snapshot => {
             let items = snapshot.val();
             console.log(items);
-            let newState = [];
-            let totalHours = 0;
+        });
+        /*itemsRef.orderByChild("day").on("child_added", function(data) {
+           console.log(data.val().day);
+        });*/
+        let newState = [];
+        let totalHours = 0;
+        /*itemsRef.orderByChild("day").on('child_added', snapshot => {
+            console.log(snapshot);
+            let items = snapshot.val();
+            console.log(items);
             let hour = 0;
             let minute = 0;
             //let second = 0;
+            console.log(items.id);
+            newState.push({
+                id: items.id,
+                pubs: items.pubs,
+                vid: items.vid,
+                horas: items.horas,
+                rr: items.rr,
+                est: items.est,
+                user: items.user,
+                date: items.date,
+                day: items.day,
+                weekday: items.weekday
+            });
+            console.log(items);
+            console.log(newState);
+            let time1 = items.horas;
+            console.log(time1);
+            let splitTime1 = time1.split(':');
+            hour = hour + parseInt(splitTime1[0], 10);
+            minute = minute + parseInt(splitTime1[1], 10);
+            console.log("hour: " + hour);
+            console.log("minute: " + minute);
+            totalHours = hour + Math.floor(minute / 60) + ":" + (minute % 60); //totalHours + addHours;
+            console.log(totalHours);*/
+        itemsRef.on('value', snapshot => {
+            console.log(snapshot);
+            let items = snapshot.val();
+            console.log(items);
+            let hour = 0;
+            let minute = 0;
+            //let second = 0;
+            console.log(items.id);
             for (let item in items) {
                 newState.push({
                     id: item,
+                    day: items[item].day,
                     pubs: items[item].pubs,
                     vid: items[item].vid,
                     horas: items[item].horas,
@@ -59,9 +101,10 @@ class Details extends React.Component {
                     est: items[item].est,
                     user: items[item].user,
                     date: items[item].date,
-                    day: items[item].day,
                     weekday: items[item].weekday
                 });
+                console.log(newState);
+                console.log(items[item]);
                 let time1 = items[item].horas;
                 console.log(time1);
                 let splitTime1 = time1.split(':');
@@ -77,10 +120,21 @@ class Details extends React.Component {
                 //console.log((hour+Math.floor(minute/60))+':'+minute%60);
                 //alert('sum of above time= '+hour+':'+minute+':'+second);
                 //let addHours = parseInt(items[item].horas);
-                totalHours =
-                    hour + Math.floor(minute / 60) + ":" + (minute % 60); //totalHours + addHours;
+                totalHours = hour + Math.floor(minute / 60) + ":" + (minute % 60); //totalHours + addHours;
                 console.log(totalHours);
             }
+            newState = newState.sort(function (a, b) {
+                console.log(a);
+                console.log(b);
+                if (a.day > b.day) {
+                    return 1;
+                }
+                if (a.day < b.day) {
+                    return -1;
+                }
+              // a must be equal to b
+                return 0;
+            });
             this.setState({
                 itemsControl: newState,
                 totalHoras: totalHours,
