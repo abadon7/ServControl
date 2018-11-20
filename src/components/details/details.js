@@ -89,7 +89,7 @@ class Details extends React.Component {
             let hour = 0;
             let minute = 0;
             //let second = 0;
-            console.log(items.id);
+            //console.log(items.id);
             for (let item in items) {
                 newState.push({
                     id: item,
@@ -236,8 +236,7 @@ class Details extends React.Component {
                                 <tbody key={item.id}>
                                     <tr>
                                         <td>
-                                            {item.day}
-                                            {this.props.dateInfo.weekdays[item.weekday]}
+                                            {item.day}-{this.props.dateInfo.weekdays[item.weekday].substring(0,3)}
                                         </td>
                                         <td>{item.pubs}</td>
                                         <td>{item.vid}</td>
@@ -248,6 +247,7 @@ class Details extends React.Component {
                                             <a className="w3-button no-padding">
                                                 <i className="fa fa-edit" />
                                             </a>
+
                                             <a
                                                 className="w3-button no-padding"
                                                 /* onClick={() => { if (confirm('Are you sure you want to delete this item?')) { this.removeItem(item.id) }; }} */ onClick={() =>

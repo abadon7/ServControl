@@ -26,7 +26,7 @@ class Settings extends React.Component {
         });
         if (localStorage.getItem('PioneerName')) {
             this.setState({
-                username : userList[localStorage.getItem('PioneerName')],
+                username : localStorage.getItem('PioneerName'),
             });
         }
     }
@@ -73,9 +73,19 @@ class Settings extends React.Component {
                         <p>
                             <label>Select name of pioneer</label>
                             <select className="w3-select" name="myName" onChange={this._handleChange}>
-                                <option value="" disabled selected>Choose your Name</option>
-                                <option value="1">Carolina</option>
-                                <option value="2">Henry</option>
+                                <option value="" disabled>Choose your Name</option>
+                                {this.state.username === 'Carito' ? 
+                                    <option value="1" selected >Carolina</option>
+                                 : 
+                                    <option value="1" >Carolina</option>
+                                }
+                                {this.state.username === 'Henry' ? 
+                                    <option value="2" selected>Henry</option>
+
+                                : 
+                                    <option value="2" >Henry</option>
+                                }
+                                
                             </select>
                         </p>
                         <label>Hours for each day</label>
