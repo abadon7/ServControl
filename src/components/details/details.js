@@ -51,6 +51,11 @@ class Details extends React.Component {
         });*/
         let newState = [];
         let totalHours = 0;
+        let totalP = 0;
+        let totalV = 0;
+        let totalR = 0;
+        let totalE = 0;
+        console.log("totalE Org"+ totalE);
         /*itemsRef.orderByChild("day").on('child_added', snapshot => {
             console.log(snapshot);
             let items = snapshot.val();
@@ -121,6 +126,17 @@ class Details extends React.Component {
                 //alert('sum of above time= '+hour+':'+minute+':'+second);
                 //let addHours = parseInt(items[item].horas);
                 totalHours = hour + Math.floor(minute / 60) + ":" + (minute % 60); //totalHours + addHours;
+                let est = parseInt(items[item].est) || 0;
+                let pub = parseInt(items[item].pubs) || 0;
+                let rr = parseInt(items[item].rr) || 0;
+                let vid = parseInt(items[item].vid) || 0;
+                /*console.log("totalE "+ totalE);
+                console.log("est "+ items[item].est);
+                console.log("est int"+ est);*/
+                totalE = totalE + est;
+                totalP = totalP + pub;
+                totalR = totalR + rr;
+                totalV = totalV + vid;
                 console.log(totalHours);
             }
             newState = newState.sort(function (a, b) {
@@ -138,6 +154,10 @@ class Details extends React.Component {
             this.setState({
                 itemsControl: newState,
                 totalHoras: totalHours,
+                totalE: totalE,
+                totalP: totalP,
+                totalR: totalR,
+                totalV: totalV,
                 DB_PATH: DB_PATH,
                 username: localStorage.getItem("PioneerName")
             });
@@ -228,6 +248,15 @@ class Details extends React.Component {
                                 <th>E</th>
                                 <th>Actions</th>
                             </tr>
+                            <tr className="w3-deep-purple">
+                                <td>Total</td>
+                                <td>{this.state.totalP}</td>
+                                <td>{this.state.totalV}</td>
+                                <td>{this.state.totalHoras}</td>
+                                <td>{this.state.totalR}</td>
+                                <td>{this.state.totalE}</td>
+                                <td></td>
+                            </tr>
                         </thead>
                         {this.state.itemsControl.map(item => {
                             console.log(item);
@@ -261,6 +290,15 @@ class Details extends React.Component {
                                 </tbody>
                             );
                         })}
+                        <tr className="w3-deep-purple">
+                            <td>Total</td>
+                            <td>{this.state.totalP}</td>
+                            <td>{this.state.totalV}</td>
+                            <td>{this.state.totalHoras}</td>
+                            <td>{this.state.totalR}</td>
+                            <td>{this.state.totalE}</td>
+                            <td></td>
+                        </tr>
                     </table>
                 </div>
             </div>

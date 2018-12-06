@@ -92,7 +92,7 @@ class Header extends React.Component {
                             <NavLink to="/agregar" className="w3-bar-item w3-button">Agregar</NavLink>
                             <NavLink to="/detalles" className="w3-bar-item w3-button">Detalles</NavLink>
                             <NavLink to="/revisitas" className="w3-bar-item w3-button">Revisitas</NavLink>
-                            <a className="w3-bar-item w3-button w3-right" onClick={this.showSettings} ><i class="material-icons">settings</i></a>
+                            <a className="w3-bar-item w3-button w3-right" onClick={this.showSettings} ><i class="material-icons">settings</i>Settings</a>
                             <a className="w3-bar-item w3-button" onClick={this.props.logOutFn}><i className="fa fa-sign-out-alt"></i></a>
                         </React.Fragment>
                     :

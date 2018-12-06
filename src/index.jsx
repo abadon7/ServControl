@@ -289,10 +289,11 @@ class App extends Component {
                                 />
                                 {/* <Addinfo />
                             <Details /> */}
+                            <h2>Usa le menú para navegar en la aplicación</h2>
                             </React.Fragment>
                         ) : (
-                            <div>
-                                <h2>Inicia sesión para usar la aplicación</h2>
+                            <div className="w3-section">
+                                <button className="w3-button w3-deep-purple w3-margin" onClick={this.login}>Inicia sesión para usar la aplicación</button>
                             </div>
                         )}
                     </div>
