@@ -112,9 +112,15 @@ class Details extends React.Component {
                 console.log(items[item]);
                 let time1 = items[item].horas;
                 console.log(time1);
-                let splitTime1 = time1.split(':');
-                hour = hour + parseInt(splitTime1[0], 10);
-                minute = minute + parseInt(splitTime1[1], 10);
+                if(time1 === 0){
+                    hour = hour + parseInt(time1, 10);
+                    minute = minute + parseInt(time1, 10);
+                }else{
+                    let splitTime1 = time1.split(':');
+                    hour = hour + parseInt(splitTime1[0], 10);
+                    minute = minute + parseInt(splitTime1[1], 10);
+                }
+                
                 console.log("hour: " + hour);
                 console.log("minute: " + minute);
                 //hour = hour + minute/60;
@@ -248,7 +254,7 @@ class Details extends React.Component {
                                 <th>E</th>
                                 <th>Actions</th>
                             </tr>
-                            <tr className="w3-deep-purple">
+                            <tr className="w3-border w3-border-purple">
                                 <td>Total</td>
                                 <td>{this.state.totalP}</td>
                                 <td>{this.state.totalV}</td>
@@ -290,7 +296,7 @@ class Details extends React.Component {
                                 </tbody>
                             );
                         })}
-                        <tr className="w3-deep-purple">
+                        <tr className="w3-border w3-border-purple">
                             <td>Total</td>
                             <td>{this.state.totalP}</td>
                             <td>{this.state.totalV}</td>
