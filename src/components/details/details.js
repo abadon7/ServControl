@@ -195,6 +195,13 @@ class Details extends React.Component {
                 this.getFirebaseInfo();
             });
         }
+        if(e.target.name === 'showYear'){
+            this.setState({
+                selYear: parseInt(e.target.value)
+            }, () => {
+                this.getFirebaseInfo();
+            });
+        }
     }
     render() {
         return (
@@ -216,6 +223,7 @@ class Details extends React.Component {
                     </select>
                     <select className="w3-select" name="showYear" onChange={this.handleChange}>
                         <option value="2018">2018</option>
+                        <option value="2019">2019</option>
                     </select>
                 </div>
                 <div>
