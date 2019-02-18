@@ -71,10 +71,10 @@ class Addinfo extends React.Component {
         const { onPress } = this.props;
         return (
             <div className="hours-day">
-                <div className="w3-container w3-pink w3-center "><span>Today is {moment().format('LLLL')}{this.state.dateString.day} {this.state.dateString.dayNum}, {this.state.dateString.month}, {this.state.dateString.year} </span></div>
-                <div className="w3-card-4 add-container">
+                <div className="w3-container w3-pink w3-center marging-top-46"><span>Today is {moment().format('LLLL')} </span></div>
+                <div className="w3-card-4 add-container marging-bottom-46">
                     <div className="w3-container w3-pink w3-center ">
-                        <h3>Agregar Información</h3>
+                        <h6>Agregar Información para {this.state.username}</h6>
                     </div>
                     
                     <form className="w3-container">

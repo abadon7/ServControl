@@ -289,7 +289,7 @@ class App extends Component {
                                 />
                                 {/* <Addinfo />
                             <Details /> */}
-                            <h2>Usa le menú para navegar en la aplicación</h2>
+                            {/* <h2>Usa le menú para navegar en la aplicación</h2> */}
                             </React.Fragment>
                         ) : (
                             <div className="w3-section">
