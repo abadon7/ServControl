@@ -206,8 +206,8 @@ class Details extends React.Component {
     render() {
         return (
             <div className="info-container">
-                <div>
-                    <h4>Información de {this.state.username}</h4>
+                <div className="marging-top-46">
+                    <h4>{this.state.username}'s Information</h4>
                 </div>
                 <div className="">
                     <label>To change month and year</label>

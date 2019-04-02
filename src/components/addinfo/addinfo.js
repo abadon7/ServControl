@@ -43,6 +43,7 @@ class Addinfo extends React.Component {
             addDate: "",
             startDate: moment(),
             myName: '',
+            rrinfotext:''
 
         }
         this.handleChange = this.handleChange.bind(this);
@@ -56,6 +57,7 @@ class Addinfo extends React.Component {
         });
     }*/
     handleChange(date) {
+        console.log(date);
         console.log(date._d.getMonth());
         this.setState({
             startDate: date
@@ -67,70 +69,32 @@ class Addinfo extends React.Component {
             horas: time.format(str)
         });
     }
-    render() {
-        const { onPress } = this.props;
-        return (
-            <div className="hours-day">
-                <div className="w3-container w3-pink w3-center marging-top-46"><span>Today is {moment().format('LLLL')} </span></div>
-                <div className="w3-card-4 add-container marging-bottom-46">
-                    <div className="w3-container w3-pink w3-center ">
-                        <h6>Agregar Información para {this.state.username}</h6>
-                    </div>
-                    
-                    <form className="w3-container">
-                        <p>
-                            <label>Fecha</label>
-                            <DatePicker
-                                selected={this.state.startDate}
-                                onChange={this.handleChange}
-                                className="w3-input"
-                            />
-                            {/* <input className="w3-input" required type="date" name="addDate" value={this.state.addDate} onChange={this._handleChange} /> */}
-                        </p>
-                        <p>
-                            <label>Publicaciones</label>
-                            <input className="w3-input" type="number" name="publications" value={this.state.publications} placeholder="0" onChange={this._handleChange} />
-                        </p>
-                        <p>
-                            <label>Videos</label>
-                            <input className="w3-input" type="number" name="videos" value={this.state.videos} placeholder="0" onChange={this._handleChange} />
-                        </p>
-                        <p>
-                            <label>Horas</label>
-                            <TimePicker
-                                style={{ width: 100 }}
-                                showSecond={false}
-                               
-                                className="w3-input"
-                                onChange={this.handleTimeChange}
-                            />,
-                            {/* <input className="w3-input" type="time" name="horas" value={this.state.horas} placeholder="0" onChange={this._handleChange} /> */}
-                        </p>
-                        <p>
-                            <label>Revisitas</label>
-                            <input className="w3-input" type="number" name="returnvisits" value={this.state.returnvisits} placeholder="0" onChange={this._handleChange} />
-                        </p>
-                        <p>
-                            <label>Estudios</label>
-                            <input className="w3-input" type="number" name="estudios" value={this.state.estudios} placeholder="0" onChange={this._handleChange} />
-                        </p>
-                        <p>
-                            <div>
-                                <button className="w3-button w3-deep-purple" onClick={this.addinfo}>Agregar</button>
-                                <input type="hidden" name="dateInit" value={this.state.dateInit} />
-                                <input type="hidden" name="username" defaultValue={this.state.username} />
-                            </div>
-                        </p>
-                    </form>
-                </div>
-            </div>
-        );
-
+    getFirebaseInfo() {
+        this.setState({
+            username: localStorage.getItem('PioneerName'),
+        })
     }
+    testdate = (e) => {
+        console.log(e.target.value);
+        let formatDate = moment(e.target.value);
+        console.log(formatDate);
+        console.log(new Date(e.target.value));
+        this.setState({
+            startDate: formatDate
+        });
+    };
+
     _handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
+        if(e.target.name === 'returnvisits'){
+            console.log(`You are addind ${e.target.value} return visits`);
+            this.setState({
+                rrinfotext: `You are addind ${e.target.value} return visits`
+            });
+            
+        }
     }
     addinfo = (e) => {
         e.preventDefault();
@@ -181,6 +145,68 @@ class Addinfo extends React.Component {
                 alert('La información se guardó correctamente')
         })
         console.timeEnd("Info")
+    }
+    render() {
+        const { onPress } = this.props;
+        return (
+            <div className="hours-day">
+                <div className="w3-container w3-pink w3-center marging-top-46"><span>Today is {moment().format('LLLL')} </span></div>
+                <div className="w3-card-4 add-container marging-bottom-46">
+                    <div className="w3-container w3-pink w3-center ">
+                        <h6>Agregar Información para {this.state.username}</h6>
+                    </div>
+                    
+                    <form className="w3-container">
+                        <p>
+                            <label>Fecha</label>
+                            <input type="date" className="w3-input" onChange={this.testdate} />
+                            {/*<DatePicker
+                                selected={this.state.startDate}
+                                onChange={this.handleChange}
+                                className="w3-input"
+                            />*/}
+                            {/* <input className="w3-input" required type="date" name="addDate" value={this.state.addDate} onChange={this._handleChange} /> */}
+                        </p>
+                        <p>
+                            <label>Publicaciones</label>
+                            <input className="w3-input" type="number" name="publications" value={this.state.publications} placeholder="0" onChange={this._handleChange} />
+                        </p>
+                        <p>
+                            <label>Videos</label>
+                            <input className="w3-input" type="number" name="videos" value={this.state.videos} placeholder="0" onChange={this._handleChange} />
+                        </p>
+                        <p>
+                            <label>Horas</label>
+                            <TimePicker
+                                style={{ width: 100 }}
+                                showSecond={false}
+                               
+                                className="w3-input"
+                                onChange={this.handleTimeChange}
+                            />,
+                            {/* <input className="w3-input" type="time" name="horas" value={this.state.horas} placeholder="0" onChange={this._handleChange} /> */}
+                        </p>
+                        <p>
+                            <label>Revisitas</label>
+                            <input className="w3-input" type="number" name="returnvisits" value={this.state.returnvisits} placeholder="0" onChange={this._handleChange} />
+                            <label>{this.state.rrinfotext}</label>
+                        </p>
+                        <p>
+                            <label>Estudios</label>
+                            <input className="w3-input" type="number" name="estudios" value={this.state.estudios} placeholder="0" onChange={this._handleChange} />
+                        </p>
+                        <p>
+                            <div>
+                                <button className="w3-button w3-deep-purple" onClick={this.addinfo}>Agregar</button>
+                                <input type="hidden" name="dateInit" value={this.state.dateInit} />
+                                <input type="hidden" name="username" defaultValue={this.state.username} />
+                            </div>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        );
+
     }
 
 }
