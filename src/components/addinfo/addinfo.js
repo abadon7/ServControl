@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 import firebase, { auth, provider } from '../../firebaseInit.js';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -10,6 +11,62 @@ import '../../../node_modules/rc-time-picker/assets/index.css';
 import { APP_USERS, P_NAME } from '../../timeInformation.js';
 const showSecond = false;
 const str = showSecond ? 'HH:mm:ss' : 'HH:mm';
+class Form extends React.Component {
+
+    constructor() {
+      super();
+
+      this.displayData = [];
+
+      this.state = {
+        showdata : this.displayData,
+        postVal : ""
+      }
+
+      this.appendData = this.appendData.bind(this);
+      this.prependData = this.prependData.bind(this);
+      this.handleChangeForm = this.handleChangeForm.bind(this);
+
+    };
+
+  appendData() {
+         this.displayData.push(<div  id="display-data"><pre>{this.state.postVal}</pre></div>);
+         this.setState({
+            showdata : this.displayData,
+            postVal : ""
+         });
+      }
+
+  prependData() {
+   this.displayData.unshift(<div id="display-data"><pre>{this.state.postVal}</pre></div>);
+   this.setState({
+      showdata : this.displayData,
+      postVal : ""
+   });
+ }
+
+ handleChangeForm(e) {
+      let getTextAreaValue = e.target.value;
+      this.setState({
+        postVal :getTextAreaValue
+      });
+}
+
+  render() {
+    return (
+          <div id="mainContainer">
+             <textarea rows="4" cols="50" value={this.state.postVal} onChange={this.handleChangeForm} ></textarea>
+             <div >
+             <input  type="submit" className="button" onClick={this.appendData}  value="Append"/>
+             <input  type="submit" className="button" onClick={this.prependData}   value="Prepend"/>
+             </div>
+             <div id="display-data-Container">
+             {this.displayData}
+             </div>
+          </div>
+      );
+  }
+}
 class Addinfo extends React.Component {
     constructor(props) {
         super(props);
@@ -28,7 +85,10 @@ class Addinfo extends React.Component {
         const currentYear = today.getFullYear();
         const monthDays = new Date(today.getDay(), today.getMonth() + 1, 0).getDate();
         const currentDate = { day: currentDay, month: currentMonth, year: currentYear, days: monthDays, dayNum: today.getDate() };
+
  */
+
+        this.rrinputdisplay = [];
         this.state = {
             publications: "",
             videos: "",
@@ -43,7 +103,9 @@ class Addinfo extends React.Component {
             addDate: "",
             startDate: moment(),
             myName: '',
-            rrinfotext:''
+            rrinfotext:'',
+            rrinputarr: this.rrinputdisplay,
+            returnvisitsname: ''
 
         }
         this.handleChange = this.handleChange.bind(this);
@@ -88,13 +150,17 @@ class Addinfo extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-        if(e.target.name === 'returnvisits'){
-            console.log(`You are addind ${e.target.value} return visits`);
+        /*if(e.target.name === 'returnvisits'){
+            console.log(`You are adding ${e.target.value} return visits`);
+            for (var i = 0; i < e.target.value; i += 1) {
+              this.rrinputdisplay.push(<input type="text" key={i} />);
+            };
+            this.rrinputdisplay.push(<input type="text" />);
             this.setState({
-                rrinfotext: `You are addind ${e.target.value} return visits`
+                rrinfotext: `You are adding ${e.target.value} return visits`,
+                rrinputarr: this.rrinputdisplay
             });
-            
-        }
+        }*/
     }
     addinfo = (e) => {
         e.preventDefault();
@@ -183,13 +249,21 @@ class Addinfo extends React.Component {
                                
                                 className="w3-input"
                                 onChange={this.handleTimeChange}
-                            />,
+                            />
                             {/* <input className="w3-input" type="time" name="horas" value={this.state.horas} placeholder="0" onChange={this._handleChange} /> */}
                         </p>
                         <p>
                             <label>Revisitas</label>
-                            <input className="w3-input" type="number" name="returnvisits" value={this.state.returnvisits} placeholder="0" onChange={this._handleChange} />
+                            {/*<input className="w3-input" type="number" name="returnvisits" value={this.state.returnvisits} placeholder="0" onChange={this._handleChange} />*/}
+                            <div className="w3-bar">
+                                <input className="w3-input w3-left width-70per" type="text" name="returnvisitsname" value={this.state.returnvisitsname} placeholder="Return visit name" onChange={this._handleChange} />
+                                <button className="w3-btn w3-deep-purple w3-right">Add</button>
+                            </div>
+
                             <label>{this.state.rrinfotext}</label>
+                            <div id="display-data-Container">
+                                {this.rrinputdisplay}
+                            </div>
                         </p>
                         <p>
                             <label>Estudios</label>
@@ -212,3 +286,5 @@ class Addinfo extends React.Component {
 }
 export default Addinfo;
 //React.render(<Switch isChecked={true} />, document.getElementById("page"));
+
+
