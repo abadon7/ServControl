@@ -11,7 +11,7 @@ import '../../../node_modules/rc-time-picker/assets/index.css';
 import { APP_USERS, P_NAME } from '../../timeInformation.js';
 const showSecond = false;
 const str = showSecond ? 'HH:mm:ss' : 'HH:mm';
-class Form extends React.Component {
+/* class Form extends React.Component {
 
     constructor() {
       super();
@@ -20,8 +20,8 @@ class Form extends React.Component {
 
       this.state = {
         showdata : this.displayData,
-        postVal : ""
-      }
+        postVal : ''
+      };
 
       this.appendData = this.appendData.bind(this);
       this.prependData = this.prependData.bind(this);
@@ -33,7 +33,7 @@ class Form extends React.Component {
          this.displayData.push(<div  id="display-data"><pre>{this.state.postVal}</pre></div>);
          this.setState({
             showdata : this.displayData,
-            postVal : ""
+            postVal : ''
          });
       }
 
@@ -41,7 +41,7 @@ class Form extends React.Component {
    this.displayData.unshift(<div id="display-data"><pre>{this.state.postVal}</pre></div>);
    this.setState({
       showdata : this.displayData,
-      postVal : ""
+      postVal : ''
    });
  }
 
@@ -55,7 +55,7 @@ class Form extends React.Component {
   render() {
     return (
           <div id="mainContainer">
-             <textarea rows="4" cols="50" value={this.state.postVal} onChange={this.handleChangeForm} ></textarea>
+             <textarea rows="4" cols="50" value={this.state.postVal} onChange={this.handleChangeForm}  />
              <div >
              <input  type="submit" className="button" onClick={this.appendData}  value="Append"/>
              <input  type="submit" className="button" onClick={this.prependData}   value="Prepend"/>
@@ -66,7 +66,7 @@ class Form extends React.Component {
           </div>
       );
   }
-}
+} */
 class Addinfo extends React.Component {
     constructor(props) {
         super(props);
@@ -90,23 +90,22 @@ class Addinfo extends React.Component {
 
         this.rrinputdisplay = [];
         this.state = {
-            publications: "",
-            videos: "",
+            publications: '',
+            videos: '',
             horas: 0,
-            returnvisits: "",
-            estudios: "",
+            returnvisits: '',
+            estudios: '',
             itemsControl: [],
             totalHoras: 0,
             dateInit: date,
             username: localStorage.getItem('PioneerName'),
             dateString: this.props.dateInfo,
-            addDate: "",
+            addDate: '',
             startDate: moment(),
             myName: '',
             rrinfotext:'',
             rrinputarr: this.rrinputdisplay,
             returnvisitsname: ''
-
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTimeChange = this.handleTimeChange.bind(this);
@@ -162,17 +161,28 @@ class Addinfo extends React.Component {
             });
         }*/
     }
+    addrv = (e) => {
+        e.preventDefault();
+        let rvname = this.state.returnvisitsname;
+        console.log(`You are adding ${rvname} return visits`);
+        this.rrinputdisplay.push({name:rvname,estudy:0});
+        this.setState({
+            rrinfotext: `You are adding ${rvname} return visits`,
+            rrinputarr: this.rrinputdisplay,
+            returnvisitsname: ''
+        });
+    }
     addinfo = (e) => {
         e.preventDefault();
         console.log('Checking info');
-        console.time("Info");
+        console.time('Info');
         let dateToAdd = this.state.dateInit; // !This line could be useless 
         let customDate = this.state.addDate;
         const addWeekDay = this.state.startDate._d.getDay();
         const addDay = this.state.startDate._d.getDate();
         const addMonth = this.state.startDate._d.getMonth() + 1;
         const addYear = this.state.startDate._d.getFullYear();
-        if (customDate !== "") {
+        if (customDate !== '') {
             dateToAdd = customDate;
         }
         const item = {
@@ -206,17 +216,17 @@ class Addinfo extends React.Component {
         //controlref.push(item);
         controlref.push(item, function (error) {
             if (error)
-                alert("Tuvimos problemnas guardando la información")
+                alert('Tuvimos problemnas guardando la información')
             else
                 alert('La información se guardó correctamente')
         })
-        console.timeEnd("Info")
+        console.timeEnd('Info')
     }
     render() {
         const { onPress } = this.props;
         return (
             <div className="hours-day">
-                <div className="w3-container w3-pink w3-center marging-top-46"><span>Today is {moment().format('LLLL')} </span></div>
+                <div className="w3-container w3-pink w3-center marging-top-46"><span>Today is {moment().format('LL')} </span></div>
                 <div className="w3-card-4 add-container marging-bottom-46">
                     <div className="w3-container w3-pink w3-center ">
                         <h6>Agregar Información para {this.state.username}</h6>
@@ -257,14 +267,22 @@ class Addinfo extends React.Component {
                             {/*<input className="w3-input" type="number" name="returnvisits" value={this.state.returnvisits} placeholder="0" onChange={this._handleChange} />*/}
                             <div className="w3-bar">
                                 <input className="w3-input w3-left width-70per" type="text" name="returnvisitsname" value={this.state.returnvisitsname} placeholder="Return visit name" onChange={this._handleChange} />
-                                <button className="w3-btn w3-deep-purple w3-right">Add</button>
+                                <button className="w3-btn w3-deep-purple w3-right" onClick={this.addrv}>Add</button>
                             </div>
 
                             <label>{this.state.rrinfotext}</label>
-                            <div id="display-data-Container">
-                                {this.rrinputdisplay}
+                            <div>
+                                <ul className="w3-ul w3-card-4">
+                                    {this.state.rrinputarr.map(item => {
+                                        console.log('checking rv');
+                                        console.log(item);
+                                        return(
+                                            <li className="w3-display-container"><input class="w3-check" type="checkbox"/>{item.name}<span onclick="this.parentElement.style.display='none'" className="w3-button w3-transparent w3-display-right">&times;</span></li>            
+                                        )
+                                    })}
+                                </ul> 
                             </div>
-                        </p>
+                        </p> 
                         <p>
                             <label>Estudios</label>
                             <input className="w3-input" type="number" name="estudios" value={this.state.estudios} placeholder="0" onChange={this._handleChange} />
