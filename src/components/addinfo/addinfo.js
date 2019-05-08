@@ -94,7 +94,7 @@ class Addinfo extends React.Component {
             videos: '',
             horas: 0,
             returnvisits: '',
-            estudios: '',
+            estudios: 0,
             itemsControl: [],
             totalHoras: 0,
             dateInit: date,
@@ -103,13 +103,13 @@ class Addinfo extends React.Component {
             addDate: '',
             startDate: moment(),
             myName: '',
-            rrinfotext:'',
+            rrinfotext: '',
             rrinputarr: this.rrinputdisplay,
             returnvisitsname: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTimeChange = this.handleTimeChange.bind(this);
-        
+
     }
     /*componentWillMount() {
         this.setState({
@@ -165,12 +165,42 @@ class Addinfo extends React.Component {
         e.preventDefault();
         let rvname = this.state.returnvisitsname;
         console.log(`You are adding ${rvname} return visits`);
-        this.rrinputdisplay.push({name:rvname,estudy:0});
+        this.rrinputdisplay.push({ name: rvname, study: 0 });
         this.setState({
             rrinfotext: `You are adding ${rvname} return visits`,
+            revinfotext: 'Use the checkbox to select the students',
             rrinputarr: this.rrinputdisplay,
-            returnvisitsname: ''
+            returnvisitsname: '',
+            returnvisits: this.rrinputdisplay.length
         });
+    }
+    removerv = (index) => {
+        console.log(`removing ${index}`);
+        console.log(this.state.rrinputarr);
+        this.rrinputdisplay = this.state.rrinputarr;
+        this.rrinputdisplay.splice(index,1);
+        console.log(this.rrinputdisplay);
+        this.setState({
+            rrinputarr: this.rrinputdisplay,
+            returnvisits: this.rrinputdisplay.length
+        })
+    }
+    chkStudents = (index) => {
+        console.log(`Checking ${index}`);
+        this.rrinputdisplay = this.state.rrinputarr;
+        let stdvalue = this.rrinputdisplay[index].study;
+        let stdtotal = this.state.estudios;
+        if(stdvalue === 0){
+            this.rrinputdisplay[index].study = 1;
+            stdtotal = stdtotal + 1;
+        }else{
+            this.rrinputdisplay[index].study = 0;
+            stdtotal = stdtotal - 1;
+        }
+        this.setState({
+            rrinputarr: this.rrinputdisplay,
+            estudios: stdtotal
+        })
     }
     addinfo = (e) => {
         e.preventDefault();
@@ -190,6 +220,7 @@ class Addinfo extends React.Component {
             vid: this.state.videos,
             horas: this.state.horas,
             rr: this.state.returnvisits,
+            rvnames: this.state.rrinputarr,
             est: this.state.estudios,
             date: dateToAdd,
             user: this.state.username,
@@ -231,7 +262,7 @@ class Addinfo extends React.Component {
                     <div className="w3-container w3-pink w3-center ">
                         <h6>Agregar Información para {this.state.username}</h6>
                     </div>
-                    
+
                     <form className="w3-container">
                         <p>
                             <label>Fecha</label>
@@ -256,7 +287,7 @@ class Addinfo extends React.Component {
                             <TimePicker
                                 style={{ width: 100 }}
                                 showSecond={false}
-                               
+
                                 className="w3-input"
                                 onChange={this.handleTimeChange}
                             />
@@ -269,20 +300,21 @@ class Addinfo extends React.Component {
                                 <input className="w3-input w3-left width-70per" type="text" name="returnvisitsname" value={this.state.returnvisitsname} placeholder="Return visit name" onChange={this._handleChange} />
                                 <button className="w3-btn w3-deep-purple w3-right" onClick={this.addrv}>Add</button>
                             </div>
-
-                            <label>{this.state.rrinfotext}</label>
+                            <div className="w3-panel w3-pink">
+                                <h7 className="w3-opacity">{this.state.revinfotext}</h7>
+                            </div>
                             <div>
                                 <ul className="w3-ul w3-card-4">
-                                    {this.state.rrinputarr.map(item => {
+                                    {this.state.rrinputarr.map((item, index) => {
                                         console.log('checking rv');
-                                        console.log(item);
-                                        return(
-                                            <li className="w3-display-container"><input class="w3-check" type="checkbox"/>{item.name}<span onclick="this.parentElement.style.display='none'" className="w3-button w3-transparent w3-display-right">&times;</span></li>            
-                                        )
+                                        console.log(item+index);
+                                        return (
+                                            <li key={index} className="w3-display-container"><input className="w3-check w3-display-left" type="checkbox" onClick={() => this.chkStudents(index)}/>&times;{item.name}{index}<span onClick={() => this.removerv(index)} className="w3-button w3-transparent w3-display-right">&times;</span></li>
+                                        );
                                     })}
-                                </ul> 
+                                </ul>
                             </div>
-                        </p> 
+                        </p>
                         <p>
                             <label>Estudios</label>
                             <input className="w3-input" type="number" name="estudios" value={this.state.estudios} placeholder="0" onChange={this._handleChange} />

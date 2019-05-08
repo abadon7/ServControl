@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import Addinfo from './components/addinfo/addinfo';
 import Details from './components/details/details';
+import Returnv from './components/returnv/returnv';
 import Header from './components/header/header';
 import Switch from './components/switch/switch.js';
 import './favicon.ico';
@@ -286,6 +287,16 @@ class App extends Component {
                                         />
                                     )}
                                     ref="details"
+                                />
+                                <Route
+                                    path="/revisitas"
+                                    render={props => (
+                                        <Returnv
+                                            {...props}
+                                            dateInfo={this.state.dateFullInfo}
+                                            ref="Returnv"
+                                        />
+                                    )}
                                 />
                                 {/* <Addinfo />
                             <Details /> */}

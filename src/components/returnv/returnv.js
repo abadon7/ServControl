@@ -217,9 +217,8 @@ class Details extends React.Component {
                         return this.state.selMonth === index + 1 ?
                             <option selected key={index} value={index}>{item}</option>
                         :
-                            <option key={index} value={index}>{item}</option>
+                            <option key={index} value={index}>{item}</option>;
                         }
-                            
                     )}
                     </select>
                     <select className="w3-select" name="showYear" onChange={this.handleChange}>
@@ -227,14 +226,8 @@ class Details extends React.Component {
                         <option value="2019">2019</option>
                     </select>
                 </div>
-                <div>
-                    <p>
-                        <span className="w3-tag w3-pink w3-xlarge">
-                            Horas Totales: {this.state.totalHoras}
-                        </span>
-                    </p>
-                </div>
-                <div className="w3-responsive w3-card-4">
+
+                <div className="">
                     {/* <ul className="w3-ul w3-card-4">
             {this.state.itemsControl.map((item) => {
                 console.log(item);
@@ -252,83 +245,28 @@ class Details extends React.Component {
                     )
                 })}
             </ul> */}
-                    <table className="data-table w3-table-all w3-hoverable">
-                        <thead>
-                            <tr className="w3-pink">
-                                <th>Day</th>
-                                <th>P</th>
-                                <th>V</th>
-                                <th>H</th>
-                                <th>R</th>
-                                <th>E</th>
-                                <th>Actions</th>
-                            </tr>
-                            <tr className="w3-border w3-border-purple">
-                                <td>Total</td>
-                                <td>{this.state.totalP}</td>
-                                <td>{this.state.totalV}</td>
-                                <td>{this.state.totalHoras}</td>
-                                <td>{this.state.totalR}</td>
-                                <td>{this.state.totalE}</td>
-                                <td></td>
-                            </tr>
-                        </thead>
+                    
                         {this.state.itemsControl.map(item => {
-                            console.log(item);
-                            console.log("Showing information");
-                            return (
-                                <tbody key={item.id}>
-                                    <tr>
-                                        <td>
-                                            {item.day}-{this.props.dateInfo.weekdays[item.weekday].substring(0,3)}
-                                        </td>
-                                        <td>{item.pubs}</td>
-                                        <td>{item.vid}</td>
-                                        <td>{item.horas}</td>
-                                        <td>
-                                            {item.rr}
-                                            <ul className="w3-ul w3-card-4">
-                                            {
-                                                item.rnames.map(rv => {
-                                                    console.log(rv.name);
-                                                    return(
-                                                        <li>{rv.name}</li>
-                                                    )
-                                                    
-                                                })
-                                            }
-                                            </ul>
-                                        
-                                        </td>
-                                        <td>{item.est}</td>
-                                        <td>
-                                            <a className="w3-button no-padding">
-                                                <i className="fa fa-edit" />
-                                            </a>
-
-                                            <a
-                                                className="w3-button no-padding"
-                                                /* onClick={() => { if (confirm('Are you sure you want to delete this item?')) { this.removeItem(item.id) }; }} */ onClick={() =>
-                                                    this.removeItem(item.id)
-                                                }
-                                            >
-                                                <i className="fa fa-trash-alt" />
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                            return(
+                                <React.Fragment key={item.id}>
+                                    <p><label>{item.date}</label></p>
+                                    <div className="w3-responsive w3-card-4">
+                                    <ul className="w3-ul w3-small">
+                                        {
+                                        item.rnames.map((rv, index) => {
+                                            console.log(rv.name);
+                                            return rv.study === 1 ?
+                                                <li className='' key={index}>{rv.name + ' (E)'}</li>
+                                            :
+                                                <li key={index}>{rv.name}</li>;
+                                        })
+                                    }
+                                    </ul>
+                                    </div>
+                                </React.Fragment>
                             );
+                            
                         })}
-                        <tr className="w3-border w3-border-purple">
-                            <td>Total</td>
-                            <td>{this.state.totalP}</td>
-                            <td>{this.state.totalV}</td>
-                            <td>{this.state.totalHoras}</td>
-                            <td>{this.state.totalR}</td>
-                            <td>{this.state.totalE}</td>
-                            <td></td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         );
