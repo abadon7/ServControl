@@ -12,7 +12,7 @@ class Details extends React.Component {
             username: localStorage.getItem("PioneerName") || "",
             itemsControl: [],
             totalHoras: 0,
-            DB_PATH: "",
+            DB_PATH: '',
             listDaysMonth: '',
             selMonth: '',
             selYear: ''
@@ -96,6 +96,10 @@ class Details extends React.Component {
             //let second = 0;
             //console.log(items.id);
             for (let item in items) {
+                let rvnamesarr = items[item].rvnames;
+                if(items[item].rvnames === ''){
+                    rvnamesarr = [];
+                }
                 newState.push({
                     id: item,
                     day: items[item].day,
@@ -103,7 +107,7 @@ class Details extends React.Component {
                     vid: items[item].vid,
                     horas: items[item].horas,
                     rr: items[item].rr,
-                    rnames: items[item].rvnames,
+                    rnames: rvnamesarr,
                     est: items[item].est,
                     user: items[item].user,
                     date: items[item].date,
@@ -295,7 +299,7 @@ class Details extends React.Component {
                                                         <li>{rv.name}</li>
                                                     )
                                                     
-                                                })
+                                                })         
                                             }
                                             </ul>
                                         

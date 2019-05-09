@@ -141,7 +141,8 @@ class Addinfo extends React.Component {
         console.log(formatDate);
         console.log(new Date(e.target.value));
         this.setState({
-            startDate: formatDate
+            startDate: formatDate,
+            addDate: e.target.value
         });
     };
 
@@ -215,12 +216,16 @@ class Addinfo extends React.Component {
         if (customDate !== '') {
             dateToAdd = customDate;
         }
+        let rvarrnames = '';
+        if(this.state.rrinputarr.length > 0){
+            rvarrnames = this.state.rrinputarr;
+        }
         const item = {
             pubs: this.state.publications,
             vid: this.state.videos,
             horas: this.state.horas,
             rr: this.state.returnvisits,
-            rvnames: this.state.rrinputarr,
+            rvnames: rvarrnames,
             est: this.state.estudios,
             date: dateToAdd,
             user: this.state.username,
@@ -266,7 +271,7 @@ class Addinfo extends React.Component {
                     <form className="w3-container">
                         <p>
                             <label>Fecha</label>
-                            <input type="date" className="w3-input" onChange={this.testdate} />
+                            <input type="date" className="w3-input" name="addDate" onChange={this.testdate} />
                             {/*<DatePicker
                                 selected={this.state.startDate}
                                 onChange={this.handleChange}
