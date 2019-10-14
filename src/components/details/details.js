@@ -55,7 +55,7 @@ class Details extends React.Component {
         let totalV = 0;
         let totalR = 0;
         let totalE = 0;
-        console.log("totalE Org"+ totalE);
+        console.log('totalE Org' + totalE);
         /*itemsRef.orderByChild("day").on('child_added', snapshot => {
             console.log(snapshot);
             let items = snapshot.val();
@@ -274,12 +274,12 @@ class Details extends React.Component {
                                 <td>{this.state.totalHoras}</td>
                                 <td>{this.state.totalR}</td>
                                 <td>{this.state.totalE}</td>
-                                <td></td>
+                                <td />
                             </tr>
                         </thead>
                         {this.state.itemsControl.map(item => {
                             console.log(item);
-                            console.log("Showing information");
+                            console.log('Showing information');
                             return (
                                 <tbody key={item.id}>
                                     <tr>
@@ -291,18 +291,16 @@ class Details extends React.Component {
                                         <td>{item.horas}</td>
                                         <td>
                                             {item.rr}
-                                            <ul className="w3-ul w3-card-4">
+                                            <ul className="w3-ul w3-card-1">
                                             {
-                                                item.rnames.map(rv => {
+                                                item.rnames.map((rv,index) => {
                                                     console.log(rv.name);
-                                                    return(
-                                                        <li>{rv.name}</li>
-                                                    )
-                                                    
-                                                })         
-                                            }
+                                                    return rv.study === 1 ?
+                                                        <li className='w3-text-pink' key={index}><span>{rv.name + ' (E)'}</span></li>
+                                                    :
+                                                        <li key={index}>{rv.name}</li>;
+                                                })}
                                             </ul>
-                                        
                                         </td>
                                         <td>{item.est}</td>
                                         <td>
@@ -323,15 +321,17 @@ class Details extends React.Component {
                                 </tbody>
                             );
                         })}
-                        <tr className="w3-border w3-border-purple">
-                            <td>Total</td>
-                            <td>{this.state.totalP}</td>
-                            <td>{this.state.totalV}</td>
-                            <td>{this.state.totalHoras}</td>
-                            <td>{this.state.totalR}</td>
-                            <td>{this.state.totalE}</td>
-                            <td></td>
-                        </tr>
+                        <tbody>
+                            <tr className="w3-border w3-border-purple">
+                                <td>Total</td>
+                                <td>{this.state.totalP}</td>
+                                <td>{this.state.totalV}</td>
+                                <td>{this.state.totalHoras}</td>
+                                <td>{this.state.totalR}</td>
+                                <td>{this.state.totalE}</td>
+                                <td />
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

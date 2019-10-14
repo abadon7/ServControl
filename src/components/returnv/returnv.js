@@ -232,6 +232,14 @@ class Details extends React.Component {
                 </div>
 
                 <div className="">
+                    <p>
+                        <span className="w3-tag w3-pink w3-xlarge">
+                            Studies: {this.state.totalE}
+                        </span>
+                        <span className="w3-tag w3-pink w3-xlarge">
+                            R. Visits: {this.state.totalR}
+                        </span>
+                    </p>
                     {/* <ul className="w3-ul w3-card-4">
             {this.state.itemsControl.map((item) => {
                 console.log(item);
@@ -253,19 +261,19 @@ class Details extends React.Component {
                         {this.state.itemsControl.map(item => {
                             return(
                                 <React.Fragment key={item.id}>
-                                    <p><label>{item.date}</label></p>
-                                    <div className="w3-responsive w3-card-4">
-                                    <ul className="w3-ul w3-small">
-                                        {
-                                        item.rnames.map((rv, index) => {
-                                            console.log(rv.name);
-                                            return rv.study === 1 ?
-                                                <li className='' key={index}>{rv.name + ' (E)'}</li>
-                                            :
-                                                <li key={index}>{rv.name}</li>;
-                                        })
-                                    }
-                                    </ul>
+                                    <p><label>{moment(item.date).format('LL')}</label></p>
+                                    <div className="w3-responsive w3-card-2">
+                                        <ul className="w3-ul w3-small">
+                                            {
+                                            item.rnames.map((rv, index) => {
+                                                console.log(rv.name);
+                                                return rv.study === 1 ?
+                                                    <li className='w3-text-pink' key={index}><b>{rv.name + ' (E)'}</b></li>
+                                                :
+                                                    <li key={index}>{rv.name}</li>;
+                                            })
+                                        }
+                                        </ul>
                                     </div>
                                 </React.Fragment>
                             );
