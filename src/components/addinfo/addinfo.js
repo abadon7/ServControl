@@ -181,9 +181,14 @@ class Addinfo extends React.Component {
         this.rrinputdisplay = this.state.rrinputarr;
         this.rrinputdisplay.splice(index,1);
         console.log(this.rrinputdisplay);
+        let stdtotal = this.state.estudios;
+        if(stdtotal > 0){
+            stdtotal = stdtotal - 1
+        }
         this.setState({
             rrinputarr: this.rrinputdisplay,
-            returnvisits: this.rrinputdisplay.length
+            returnvisits: this.rrinputdisplay.length,
+            estudios: stdtotal
         })
     }
     chkStudents = (index) => {
@@ -247,6 +252,9 @@ class Addinfo extends React.Component {
         /*  this.setState({
              items: newState
          }); */
+         if (confirm(`This information will be added to ${this.state.username}, is it correct?`)) {
+            
+        }
         console.log(item);
         const controlref = firebase.database().ref(`control/${this.state.username}/${addYear}/${addMonth}`);
         //controlref.push(item);
@@ -322,10 +330,10 @@ class Addinfo extends React.Component {
                         </p>
                         <p>
                             <label>Estudios</label>
-                            <input className="w3-input" type="number" name="estudios" value={this.state.estudios} placeholder="0" onChange={this._handleChange} />
+                            <input className="w3-input" type="text" name="estudios" readonly="true" value={this.state.estudios} placeholder="0" onChange={this._handleChange} />
                         </p>
                         <p>
-                            <div>
+                            <div className="w3-center">
                                 <button className="w3-button w3-deep-purple" onClick={this.addinfo}>Agregar</button>
                                 <input type="hidden" name="dateInit" value={this.state.dateInit} />
                                 <input type="hidden" name="username" defaultValue={this.state.username} />

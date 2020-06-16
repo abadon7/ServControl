@@ -12,7 +12,7 @@ class Switch extends React.Component {
         }
         this._handleChange2 = this._handleChange2.bind(this);
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({ 
             isChecked: this.props.isChecked,
             itemIdSw: this.props.itemIdSw                                       

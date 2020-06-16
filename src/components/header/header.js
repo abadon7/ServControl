@@ -14,7 +14,7 @@ class Header extends React.Component {
         this.showSettings = this.showSettings.bind(this);
 
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({
             user: this.props.user,
         });
